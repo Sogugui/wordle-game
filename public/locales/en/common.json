@@ -1,0 +1,3 @@
+{
+    "Modals.HowToPlay": "Wordle is a fun and enjoyable word puzzle that anyone can play. Instructions:\n- Objective: The goal of Wordle is to guess a hidden five-letter word.\n- Guessing: You have six attempts to guess the correct word.\n- Making Guesses: Submit a five-letter word as your guess. Type it in and hit enter.\n- Feedback: After each guess, Wordle gives you feedback: Correct letters in the correct position are marked in green. Correct letters in the wrong position are marked in yellow. Incorrect letters are marked in gray.\n- Adjusting Strategy: Use the feedback to adjust your strategy and get closer to the correct word.\n- Winning: If you guess the word within six attempts, you win! Otherwise, Wordle reveals the correct word."
+}
