@@ -1,34 +1,36 @@
+import { Guess } from "@/pages";
 import { classNames } from "@/utils/styles";
 import React from "react";
 
-interface KeyBoxProps {
-  letter: string;
-  status: string;
-}
-enum Statuses {
-  "empty",
-  "misplaced",
-  "correct",
-  "incorrect",
-}
-
-const KeyBox: React.FC<KeyBoxProps> = ({ letter, status }) => (
+const KeyBox: React.FC<Guess> = ({ letter, state }) => (
   <div
     className={classNames(
-      "bg-greyMarginButton flex items-center justify-center  rounded-xl p-5  text-center font-sans text-2xl font-bold lg:h-12 lg:w-12 lg:p-3",
-      status === "empty" ? " " : "",
-      status === "correct" ? " bg-greenMarginButton " : "",
-      status === "misplaced" ? "  bg-yellow-500 text-white" : "",
-      status === "incorrect" ? "  bg-gray-600 text-white" : "",
+      "flex h-7 w-8 items-center  justify-center rounded-md bg-greyMarginButton text-center font-sans  font-bold lg:h-12 lg:w-12 lg:rounded-lg lg:p-2 ",
+      state === "empty" ? "bg-gray-300 dark:bg-stone-500" : "",
+      state === "correct"
+        ? "animate-rotate-y animate-once animate-duration-300 animate-ease-in-out animate-normal bg-greenMarginButton"
+        : "",
+      state === "misplaced"
+        ? " animate-wiggle-more animate-duration-300 animate-ease-in-out animate-normal bg-yellowMarginButton text-yellow-900"
+        : "",
+      state === "incorrect" ? "bg-slate-400" : "",
     )}
   >
     <span
       className={classNames(
-        "from-greyCenterButton h-full w-full rounded-md bg-gradient-to-b to-slate-400/20",
-        status === "empty" ? " " : "",
-        status === "correct" ? " bg-greenCenterButton " : "",
-        status === "misplaced" ? " bg-yellowCenterButton" : "",
-        status === "incorrect" ? " bg-greyCenterButton" : "",
+        "h-3/4  w-3/4 rounded bg-gradient-to-b from-greyCenterButton to-slate-400/20 text-sm md:text-xl lg:h-full lg:w-full lg:p-0 lg:px-0",
+        state === "empty"
+          ? " from-stone-300 to-stone-300 dark:from-stone-400 dark:to-zinc-400"
+          : "",
+        state === "correct"
+          ? " animate-rotate-y animate-once animate-duration-300 animate-ease-in-out animate-normal from-greenMarginButton to-green-500 text-green-800"
+          : "",
+        state === "misplaced"
+          ? " animate-wiggle animate-duration-300 animate-ease-in-out animate-normal from-yellowMarginButton to-yellowCenterButton"
+          : "",
+        state === "incorrect"
+          ? "from-gray-400 to-slate-300 text-slate-600"
+          : "",
       )}
     >
       {letter}
@@ -37,7 +39,7 @@ const KeyBox: React.FC<KeyBoxProps> = ({ letter, status }) => (
 );
 
 interface BoardProps {
-  guesses: KeyBoxProps[][];
+  guesses: Guess[][];
 }
 
 const Board: React.FC<BoardProps> = ({ guesses }) => (
@@ -45,8 +47,8 @@ const Board: React.FC<BoardProps> = ({ guesses }) => (
     <div className="grid w-full grid-cols-1 gap-y-2 lg:w-auto">
       {guesses.map((guess, index) => (
         <div key={index} className="flex justify-center gap-x-1">
-          {guess.map(({ letter, status }, guessIndex) => (
-            <KeyBox key={guessIndex} letter={letter} status={status} />
+          {guess.map(({ letter, state }, guessIndex) => (
+            <KeyBox key={guessIndex} letter={letter} state={state} />
           ))}
         </div>
       ))}
