@@ -1,32 +1,72 @@
+import { useEffect } from "react";
 import { classNames } from "@/utils/styles";
 import { Button } from "./ui/button";
 import { Delete } from "lucide-react";
+import { LetterState } from "@/pages";
+import { useState } from "react";
 
 interface KeyboardButtonProps {
   letter: string;
-  status: string;
-  onClick: (letter: string) => void;
+  state: LetterState | string;
+  onClickLetter: (letter: string) => void;
+  wordsArray: string[];
 }
 
 const KeyboardButton: React.FC<KeyboardButtonProps> = ({
+  wordsArray,
   letter,
-  status,
-  onClick,
+  state,
+  onClickLetter,
 }) => {
+  //NOTE - this component renders a single KEY to the KEYBOARD
+
+  const [isTouched, setIsTouched] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent): void {
+      // e.key.length === 1 checks if the key is different than a special one like alt, tab, etc
+      // alert(`e.key ${e.key} | letter ${letter}`);
+      if (e.key.toUpperCase() === letter) {
+        setIsTouched(true);
+        setTimeout(() => {
+          setIsTouched(false);
+        }, 100);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
+  console.log("state", state);
+
   if (letter === "ENTER" || letter === "DELETE") {
     return (
       <button
-        onClick={() => onClick(letter)}
-        className="to-purpleBackGround from-purpleBackGround col-span-2 flex items-center justify-center rounded-md border-2 bg-gradient-to-br via-violet-800 p-1 font-bold text-white dark:from-slate-700 dark:to-slate-700"
+        onClick={() => onClickLetter(letter)}
+        className={`col-span-2 flex items-center justify-center rounded-md border-2 bg-gradient-to-br from-purpleBackGround via-violet-800 to-purpleBackGround p-1 font-bold text-white transition-all duration-75 ease-in-out active:translate-y-1 dark:from-slate-700 dark:to-slate-700
+        ${isTouched ? "translate-y-2 " : "translate-y-0 scale-100"}
+        `}
       >
-        {letter === "ENTER" ? <Delete size={25} /> : "ENTER"}
+        {letter === "ENTER" ? "ENTER" : <Delete size={25} />}
       </button>
     );
   } else {
     return (
       <button
-        className="flex items-center justify-center rounded-lg border-2 bg-gradient-to-br from-slate-400 to-slate-700 px-2 py-1 text-base font-bold text-white md:text-xl lg:p-1 dark:from-stone-700 dark:via-neutral-600 dark:to-stone-500"
-        onClick={() => onClick(letter)}
+        className={classNames(
+          `flex items-center justify-center rounded-lg border-2 bg-slate-400  px-2 py-1 text-base font-bold text-white transition-all duration-75 ease-in-out active:-translate-y-1 
+          dark:from-stone-700 dark:via-neutral-600 dark:to-stone-500 md:text-xl lg:p-1`,
+          isTouched ? "translate-y-1 " : "translate-y-0 scale-100",
+          state === "unchecked" ? " bg-gray-400 text-black" : "",
+          state === "correct" ? " bg-greenMarginButton text-green-900" : "",
+          state === "misplaced" ? "  bg-yellow-500 text-yellow-900" : "",
+          state === "incorrect" ? "  bg-gray-500 text-neutral-950" : "",
+        )}
+        onClick={() => onClickLetter(letter)}
       >
         {letter}
       </button>
@@ -35,11 +75,17 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
 };
 
 interface KeyboardProps {
-  letterstatuss: Record<string, string>;
-  onClick: (letter: string) => void;
+  letterStates: Record<string, string>;
+  onClickLetter: (letter: string) => void;
+  wordsArray: string[];
 }
 
-const Keyboard: React.FC<KeyboardProps> = ({ letterstatuss, onClick }) => {
+const Keyboard: React.FC<KeyboardProps> = ({
+  letterStates,
+  onClickLetter,
+  wordsArray,
+}) => {
+  console.log("letterStates ====> ", letterStates);
   const letters = [
     "Q",
     "W",
@@ -78,8 +124,9 @@ const Keyboard: React.FC<KeyboardProps> = ({ letterstatuss, onClick }) => {
           <KeyboardButton
             key={letter}
             letter={letter}
-            status={letterstatuss[letter] ?? "defaultstatus"}
-            onClick={onClick}
+            state={letterStates[letter] ?? "empty"}
+            onClickLetter={onClickLetter}
+            wordsArray={wordsArray}
           />
         ))}
       </div>
