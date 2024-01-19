@@ -1,141 +1,158 @@
 import Head from "next/head";
-
+import { HelpCircle } from "lucide-react";
 import Board from "@/components/Key";
 import Keyboard from "@/components/Keyboard";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Header from "@/components/Header";
 
-type Letterstatus =
-  | "empty"
-  | "unchecked"
+import Header from "@/components/Header";
+// import { GetServerSideProps, GetStaticProps } from "next";
+
+export type LetterState =
   | "correct"
   | "misplaced"
-  | "incorrect";
+  | "incorrect"
+  | "empty"
+  | "unchecked";
 
-interface Guess {
+export type Guess = {
   letter: string;
-  status: Letterstatus;
-}
-
-interface HomeProps {
-  word: string;
-  words: string[];
-}
-
-// const setNestedArray = (
-//   array: Guess[][],
-//   i: number,
-//   j: number,
-//   letter: Guess,
-// ): Guess[][] => {
-//   const newArray = array[i].slice();
-//   const newArrays = array.slice();
-//   newArray.splice(j, 1, letter);
-//   newArrays.splice(i, 1, newArray);
-//   return newArrays;
-// };
-
-const countOf = (array: Guess[], pred: (x: Guess) => boolean): number => {
-  return array.filter(pred).length;
+  state: LetterState;
 };
 
-const Home: React.FC<HomeProps> = ({ word, words }) => {
-  const [guesses, setGuesses] = useState<Guess[][]>(
+type HomeProps = {
+  wordsArray: string[];
+};
+
+function setNestedArray<T>(
+  array: T[][],
+  col: number,
+  row: number,
+  value: T,
+): T[][] {
+  const newArray = array[col]?.slice() || [];
+  const newArrays = array.slice();
+  newArray.splice(row, 1, value);
+  newArrays.splice(col, 1, newArray);
+  return newArrays;
+}
+
+function countOf<T>(array: T[], predicate: (item: T) => boolean): number {
+  return array.filter(predicate).length;
+}
+
+const Home: React.FC<HomeProps> = ({ wordsArray }) => {
+  console.log({ wordsArray });
+
+  const [guesses, setGuesses] = useState<Array<Array<Guess>>>(
     Array.from({ length: 6 }, () =>
-      Array(5).fill({ letter: "", status: "empty" }),
+      Array.from({ length: 5 }, () => ({ letter: "", state: "empty" })),
     ),
   );
-  const [letterstatuss, setLetterstatuss] = useState<
-    Record<string, Letterstatus>
-  >({}); // const [i, setI] = usestatus<number>(0);
-  // const [j, setJ] = usestatus<number>(0);
-  // const [won, setWon] = usestatus<boolean>(false);
+  console.log({ guesses });
+  const [letterStates, setLetterStates] = useState<Record<string, LetterState>>(
+    {},
+  );
+  console.log({ letterStates });
+  const [col, setCol] = useState<number>(0);
+  console.log({ col });
 
-  // const checkGuess = (): Guess[] | undefined => {
-  //   const guess = guesses[i].slice().map((g) => g.letter);
-  //   if (!words.includes(guess.join(""))) {
-  //     alert("Not in word list");
-  //     return;
-  //   }
+  const [row, setRow] = useState<number>(0);
+  console.log({ row });
+  const [won, setWon] = useState<boolean>(false);
 
-  //   const newLetterstatuss: Record<string, Letterstatus> = { ...letterstatuss };
-  //   const checkedGuess = guess.map((letter, ind) => {
-  //     if (letter === word[ind]) {
-  //       newLetterstatuss[letter] = "correct";
-  //       return { letter: letter, status: "correct" };
-  //     } else if (
-  //       word.includes(letter) &&
-  //       countOf(guess, (x) => x.letter === letter) <=
-  //         countOf(word, (l) => l === letter)
-  //     ) {
-  //       newLetterstatuss[letter] = "misplaced";
-  //       return { letter: letter, status: "misplaced" };
-  //     } else {
-  //       newLetterstatuss[letter] = "incorrect";
-  //       return { letter: letter, status: "incorrect" };
-  //     }
-  //   });
+  function checkGuess(): Guess[] {
+    const guess =
+      guesses[col]
+        ?.slice()
+        .map((g): Guess => ({ letter: g.letter, state: "unchecked" })) || [];
 
-  //   setLetterstatuss(newLetterstatuss);
-  //   return checkedGuess;
-  // };
+    const newLetterStates: Record<string, LetterState> = { ...letterStates };
+    const checkedGuess: Guess[] = guess.map((word, index) => {
+      const wordsArrayUpperCase = wordsArray[index]?.toUpperCase();
 
-  const handleOnClick = (letter: string): void => {
-    // switch (true) {
-    //   case won:
-    //     break;
-    //   case j === 5 && letter === "ENTER":
-    //     const checked = checkGuess();
-    //     if (checked === undefined) return;
-    //     setGuesses([...guesses.slice(0, i), checked, ...guesses.slice(i + 1)]);
-    //     if (countOf(checked, (l) => l.status === "correct") === 5) {
-    //       setWon(true);
-    //     } else {
-    //       setI(i + 1);
-    //       setJ(0);
-    //     }
-    //     break;
-    //   case j > 0 && (letter === "DELETE" || letter === "Backspace"):
-    //     setGuesses(
-    //       setNestedArray(guesses, i, j - 1, { letter: "", status: "empty" }),
-    //     );
-    //     setJ(j - 1);
-    //     break;
-    //   case i < 6 && j < 5 && letter !== "ENTER" && letter !== "DELETE":
-    //     setGuesses(
-    //       setNestedArray(guesses, i, j, {
-    //         letter: letter,
-    //         status: "unchecked",
-    //       }),
-    //     );
-    //     setJ(j + 1);
-    //     break;
-    //   default:
-    //     break;
-    // }
-  };
+      if (word.letter === wordsArrayUpperCase) {
+        newLetterStates[word.letter] = "correct";
+        return { letter: word.letter, state: "correct" };
+      } else if (
+        wordsArray.includes(word.letter.toLocaleLowerCase()) &&
+        countOf(guess, (item) => item.letter === word.letter) <=
+          countOf(wordsArray, (l) => l.toUpperCase() === word.letter)
+      ) {
+        newLetterStates[word.letter] = "misplaced";
+        return { letter: word.letter, state: "misplaced" };
+      } else {
+        newLetterStates[word.letter] = "incorrect";
+        return { letter: word.letter, state: "incorrect" };
+      }
+    });
+    setLetterStates(newLetterStates);
+    return checkedGuess;
+  }
 
-  // useEffect(() => {
-  //   const handleKeyDown = (e: KeyboardEvent): void => {
-  //     const pressedKey = e.key.toUpperCase();
+  function handleOnClick(letter: string): void {
+    switch (true) {
+      case won:
+        break;
+      case row === 5 && letter === "ENTER":
+        const checked = checkGuess();
+        if (checked.length === 0) return;
+        setGuesses([
+          ...guesses.slice(0, col),
+          checked,
+          ...guesses.slice(col + 1),
+        ]);
 
-  //     if (pressedKey >= "A" && pressedKey <= "Z") {
-  //       handleOnClick(pressedKey);
-  //     } else if (pressedKey === "ENTER") {
-  //       handleOnClick("ENTER");
-  //     } else if (pressedKey === "DELETE" || pressedKey === "Backspace") {
-  //       handleOnClick("DELETE");
-  //     }
-  //   };
+        if (countOf(checked, (l) => l.state === "correct") === 5) {
+          setWon(true);
+        } else {
+          setCol(col + 1);
+          setRow(0);
+        }
+        break;
+      case row > 0 && letter === "DELETE":
+        setGuesses(
+          setNestedArray(guesses, col, row - 1, {
+            letter: "",
+            state: "empty",
+          }),
+        );
+        setRow(row - 1);
+        break;
+      case col < 6 && row < 5 && letter !== "ENTER" && letter !== "DELETE":
+        setGuesses(
+          setNestedArray(guesses, col, row, { letter, state: "unchecked" }),
+        );
+        setRow(row + 1);
+        break;
+      default:
+        break;
+    }
+  }
 
-  //   document.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent): void {
+      // e.key.length === 1 checks if the key is different than a special one like alt, tab, etc
+      if (
+        e.key.length === 1 &&
+        (e.key >= "A" || e.key >= "a") &&
+        (e.key <= "Z" || e.key <= "z")
+      ) {
+        handleOnClick(e.key.toUpperCase());
+      } else if (e.key === "Enter") {
+        handleOnClick("ENTER");
+      } else if (e.key === "Backspace") {
+        handleOnClick("DELETE");
+      }
+    }
 
-  //   return function cleanup() {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // }, [handleOnClick]);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [guesses, col, row, won, wordsArray, letterStates]);
 
   return (
     <>
@@ -148,10 +165,15 @@ const Home: React.FC<HomeProps> = ({ word, words }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <article className="flex flex-col gap-2">
-        <Header />
+      <article className="relative flex flex-col gap-2">
+        <Header word={wordsArray} />
+
         <Board guesses={guesses} />
-        <Keyboard letterstatuss={letterstatuss} onClick={handleOnClick} />
+        <Keyboard
+          letterStates={letterStates}
+          onClickLetter={handleOnClick}
+          wordsArray={wordsArray}
+        />
       </article>
     </>
   );
@@ -159,18 +181,34 @@ const Home: React.FC<HomeProps> = ({ word, words }) => {
 
 export default Home;
 
-export async function getServerSideProps() {
-  const language = "en";
-  const word: string[] = await axios
-    .get(
-      `https://random-word-api.herokuapp.com/word?length=5&&lang=${language}`,
-    )
-    .then(function (response) {
-      return response.data;
-    });
+export const getServerSideProps = async () => {
+  const getWord = async () => {
+    const res = await fetch(
+      "https://random-word-api.herokuapp.com/word?length=5&&lang=en",
+    );
+
+    const word = await res.json();
+    const wordsArray = word[0].split("");
+    return wordsArray;
+  };
+
+  const wordsArray: string[] = await getWord();
+
   return {
     props: {
-      word,
+      wordsArray,
     },
   };
-}
+};
+
+// export async function getStaticProps({ locale }) {
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(locale, [
+//         'common',
+//         'footer',
+//       ])),
+//       // Will be passed to the page component as props
+//     },
+//   }
+// }
