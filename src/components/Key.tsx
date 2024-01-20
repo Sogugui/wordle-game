@@ -39,7 +39,7 @@ const KeyBox: React.FC<Guess> = ({ letter, state }) => (
 );
 
 const Board: React.FC<BoardProps> = ({ guesses }) => (
-  <div className="flex justify-center ">
+  <div className=" flex justify-center lg:scale-75 ">
     <div className="grid w-full grid-cols-1 gap-y-2 lg:w-auto">
       {guesses.map((guess, index) => (
         <div key={index} className="flex justify-center gap-x-1">

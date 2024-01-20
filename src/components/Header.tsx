@@ -26,20 +26,20 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
   }, []);
 
   return (
-    <>
-      <header className=" mt-4 flex w-full items-center justify-center gap-3 py-0">
+    <div className="lg:-mb-4 lg:pt-2">
+      <header className="flex w-full items-center justify-center gap-2  ">
         <div className="relative">
-          <span className="absolute -left-36 top-1/2 -translate-y-1/2 text-center font-sans text-3xl font-extrabold uppercase tracking-wider dark:text-slate-400">
+          {/* <span className="absolute -left-36 top-1/2 -translate-y-1/2 text-center font-sans text-3xl font-extrabold uppercase tracking-wider dark:text-slate-400">
             {word && word}
-          </span>
+          </span> */}
 
-          <Button
+          {/* <Button
             disabled={isActive}
             className="px-[0.36rem]"
             onClick={() => setIsActive(true)}
           >
             {isActive ? <EyeOff /> : <Eye />}
-          </Button>
+          </Button> */}
         </div>
         <LanguageSwitcher language={language} setLanguage={setLanguage} />
         <h1 className="font-header tracking-wider text-purpleBackGround dark:text-slate-400">
@@ -90,29 +90,35 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
               <section className="flex ">
                 <Image width={25} height={20} src={greenKey} alt="green-key" />
 
-                <span className="mr-1">
+                <span className="">
                   {getTranslation("HowToPlayCorrectAnswers", language)}
                 </span>
 
-                <span className="mr-1 font-bold text-greenCenterButton">
+                <span className="ml-[3px] font-bold text-greenCenterButton">
                   {getTranslation("HowToPlayCorrectAnswersColor", language)}
                 </span>
               </section>
               <section className="flex ">
-                <Image width={25} height={30} src={yellowKey} alt="yelow-key" />
+                <Image
+                  className="w-[25px] md:w-[25px] "
+                  width={25}
+                  height={25}
+                  src={yellowKey}
+                  alt="yelow-key"
+                />
 
-                <span className="mr-1">
+                <span className="">
                   {getTranslation("HowToPlayMissplacedAnswers", language)}
                 </span>
 
-                <span className="ml-1 font-bold text-yellowMarginButton ">
+                <span className="ml-[2px] font-bold text-yellowMarginButton ">
                   {getTranslation("HowToPlayMissplacedAnswersColor", language)}
                 </span>
               </section>
               <section className="flex ">
                 <Image
-                  width={25}
-                  className=""
+                  // width={25}
+                  className="w-[25px] md:w-[25px] "
                   height={30}
                   src={grayKey}
                   alt="gray-key"
@@ -144,6 +150,6 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
           </li>
         </ul>
       </ModalWithTitle>
-    </>
+    </div>
   );
 }

@@ -67,8 +67,8 @@ const Keyboard: React.FC<KeyboardProps> = ({
   wordsArray,
 }) => {
   return (
-    <section className="flex w-full justify-center ">
-      <div className="grid grid-cols-10 gap-1 px-3 md:px-0 lg:gap-0">
+    <div className=" flex w-full items-center justify-center  md:scale-50 lg:h-5  lg:scale-75 lg:pb-2">
+      <div className="grid grid-cols-10 gap-1 px-3 md:px-0 lg:gap-0 ">
         {lettersArray.map((letter) => (
           <KeyboardButton
             key={letter}
@@ -79,7 +79,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 export default Keyboard;

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Board from "@/components/Key";
 import Keyboard from "@/components/Keyboard";
 import winnerAnimation from "../../public/assets/winner.json";
+import lostAmimation from "../../public/assets/youLost.json";
 import { useEffect, useState } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Header from "@/components/Header";
@@ -58,8 +59,9 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
   }, [language]);
 
   const handleReload = () => {
-    getWord();
     setIsModalVisible(false);
+    setIsNotWinnerVisible(false);
+    getWord();
     setCol(0);
     setRow(0);
     setGuesses(
@@ -169,7 +171,7 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
   }, [won, col]);
 
   return (
-    <>
+    <div className="flex flex-col  ">
       <Head>
         <title>Wordle</title>
         <meta
@@ -178,8 +180,14 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        {/* <Header
+          locale={locale}
+          word={wordsArray}
+          language={language}
+          setLanguage={setLanguage}
+        /> */}
       </Head>
-      <article className="relative flex flex-col gap-2">
+      <div className="flex flex-col gap-5 md:gap-1 lg:gap-1">
         <Header
           locale={locale}
           word={wordsArray}
@@ -194,7 +202,7 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
           wordsArray={wordsArray}
         />
         <h3 className="text-xl text-red-500"> {locale}</h3>
-      </article>
+      </div>
 
       <ModalWithTitle
         title={getTranslation("UserWinner", language)}
@@ -229,16 +237,18 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
         }
       >
         <div className="mt-20 lg:mt-0">
-          {/* <Player
+          <p>
+            {getTranslation("RevealCorrectAswer", language)} {wordsArray}
+          </p>
+          <Player
             autoplay
             loop
-            src={winnerAnimation}
+            src={lostAmimation}
             style={{ height: "350px", width: "200px" }}
-          /> */}
-          <p>The answer was: {wordsArray}</p>
+          />
         </div>
       </ModalWithTitle>
-    </>
+    </div>
   );
 };
 

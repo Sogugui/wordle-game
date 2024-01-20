@@ -1,7 +1,6 @@
 import { type AppType } from "next/app";
 
 import "@/styles/globals.css";
-import { ToastContainer } from "react-toastify";
 import Container from "@/components/Container";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -14,7 +13,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       disableTransitionOnChange
     >
       <Container>
-        <ToastContainer /> <Component {...pageProps} />
+        <Component {...pageProps} />
       </Container>
     </ThemeProvider>
   );

@@ -119,7 +119,7 @@ export function ModalWithTitle({
           </div>
 
           {footer ? (
-            <div className="mt-5 flex gap-4 sm:mt-4 sm:flex-row-reverse">
+            <div className="mt-5 flex justify-center gap-4 sm:mt-4 sm:flex-row-reverse">
               {footer}
             </div>
           ) : null}
