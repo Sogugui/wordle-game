@@ -1,32 +1,32 @@
-import { Guess } from "@/pages";
+import { Guess } from "@/pages/[language]";
 import { classNames } from "@/utils/styles";
 import React from "react";
 
 const KeyBox: React.FC<Guess> = ({ letter, state }) => (
   <div
     className={classNames(
-      "flex h-7 w-8 items-center  justify-center rounded-md bg-greyMarginButton text-center font-sans  font-bold lg:h-12 lg:w-12 lg:rounded-lg lg:p-2 ",
+      "flex h-10 w-10 items-center  justify-center rounded-md bg-greyMarginButton text-center font-sans  font-bold lg:h-12 lg:w-12 lg:rounded-lg lg:p-2 ",
       state === "empty" ? "bg-gray-300 dark:bg-stone-500" : "",
       state === "correct"
-        ? "animate-rotate-y animate-once animate-duration-300 animate-ease-in-out animate-normal bg-greenMarginButton"
+        ? "animate-rotate-y bg-greenMarginButton animate-normal animate-duration-300 animate-once animate-ease-in-out"
         : "",
       state === "misplaced"
-        ? " animate-wiggle-more animate-duration-300 animate-ease-in-out animate-normal bg-yellowMarginButton text-yellow-900"
+        ? " animate-wiggle-more bg-yellowMarginButton text-yellow-900 animate-normal animate-duration-300 animate-ease-in-out"
         : "",
       state === "incorrect" ? "bg-slate-400" : "",
     )}
   >
     <span
       className={classNames(
-        "h-3/4  w-3/4 rounded bg-gradient-to-b from-greyCenterButton to-slate-400/20 text-sm md:text-xl lg:h-full lg:w-full lg:p-0 lg:px-0",
+        "flex  h-3/4 w-3/4 items-center justify-center rounded bg-gradient-to-b from-greyCenterButton to-slate-400/20 text-base md:text-xl lg:h-full lg:w-full lg:p-0 lg:px-0",
         state === "empty"
           ? " from-stone-300 to-stone-300 dark:from-stone-400 dark:to-zinc-400"
           : "",
         state === "correct"
-          ? " animate-rotate-y animate-once animate-duration-300 animate-ease-in-out animate-normal from-greenMarginButton to-green-500 text-green-800"
+          ? " animate-rotate-y from-greenMarginButton to-green-500 text-green-800 animate-normal animate-duration-300 animate-once animate-ease-in-out"
           : "",
         state === "misplaced"
-          ? " animate-wiggle animate-duration-300 animate-ease-in-out animate-normal from-yellowMarginButton to-yellowCenterButton"
+          ? " animate-wiggle from-yellowMarginButton to-yellowCenterButton animate-normal animate-duration-300 animate-ease-in-out"
           : "",
         state === "incorrect"
           ? "from-gray-400 to-slate-300 text-slate-600"
