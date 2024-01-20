@@ -30,7 +30,7 @@ start the development server
 - 5 world Guessing
 - 5 tries to guess the secret word
 - 4 different states for every word: correct, incorrect, missplaced, empty
-- fully animated by [tailwind-animated](https://www.tailwindcss-animated.com/)
+- Fully animated by [tailwind-animated](https://www.tailwindcss-animated.com/)
 - Keyboard press detection
 
 ## Development Challenges
