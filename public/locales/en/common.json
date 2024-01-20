@@ -1,3 +1,16 @@
 {
-    "Modals.HowToPlay": "Wordle is a fun and enjoyable word puzzle that anyone can play. Instructions:\n- Objective: The goal of Wordle is to guess a hidden five-letter word.\n- Guessing: You have six attempts to guess the correct word.\n- Making Guesses: Submit a five-letter word as your guess. Type it in and hit enter.\n- Feedback: After each guess, Wordle gives you feedback: Correct letters in the correct position are marked in green. Correct letters in the wrong position are marked in yellow. Incorrect letters are marked in gray.\n- Adjusting Strategy: Use the feedback to adjust your strategy and get closer to the correct word.\n- Winning: If you guess the word within six attempts, you win! Otherwise, Wordle reveals the correct word."
+    "Modals.HowToPlayTitle": "How to play",
+    "Modals.HowToPlayInformation": "Wordle is a fun and enjoyable word puzzle that anyone can play. Instructions:\n- Objective: The goal of Wordle is to guess a hidden five-letter word.\n- Guessing: You have six attempts to guess the correct word.\n- Making Guesses: Submit a five-letter word as your guess. Type it in and hit enter.\n- Feedback: After each guess, Wordle gives you feedback: Correct letters in the correct position are marked in green. Correct letters in the wrong position are marked in yellow. Incorrect letters are marked in gray.\n- Adjusting Strategy: Use the feedback to adjust your strategy and get closer to the correct word.\n- Winning: If you guess the word within six attempts, you win! Otherwise, Wordle reveals the correct word.",
+    "Modals.HowToPlayInstructions": "Objective: The goal of Wordle is to guess a hidden five-letter word.\n- Guessing: You have six attempts to guess the correct word.\n- Making Guesses: Submit a five-letter word as your guess. Type it in and hit enter.\n- Feedback: After each guess, Wordle gives you feedback: Correct letters in the correct position are marked in green. Correct letters in the wrong position are marked in yellow. Incorrect letters are marked in gray.\n- Adjusting Strategy: Use the feedback to adjust your strategy and get closer to the correct word.\n- Winning: If you guess the word within six attempts, you win! Otherwise, Wordle reveals the correct word.",
+    "Modals.UserWinner": "You won!",
+    "Modals.ResetButton": "Reset",
+    "Modals.HowToPlayObjective": "<0>Objective</0>:\nThe goal of Wordle is to guess a hidden five-letter word",
+    "Modals.HowToPlayGuessing": "<0>Guessing</0>:\nYou have six attempts to guess the correct word.",
+    "Modals.HowToPlayMakingGuesses": "<0>Making Guesses</0>:\nSubmit a five-letter word as your guess. Type it in and hit enter.",
+    "Modals.HowToPlayFeedback": "<0>Feedback</0>:\nAfter each guess, Wordle gives you feedback: ",
+    "Modals.HowToPlayAdjustingStrategy": "<0>Adjusting Strategy</0>:\nUse the feedback to adjust your strategy and get closer to the correct word",
+    "Modals.HowToPlayWinning": "<0>Winning</0>:\nIf you guess the word within six attempts, you win! Otherwise, Wordle reveals the correct word",
+    "Modals.HowToPlayCorrectAnswers": "Correct letters in the correct position are marked in:\n<2>green</2>",
+    "Modals.HowToPlayMissplacedAnswers": "Correct letters in the wrong position are marked in:\n<2>yellow</2>",
+    "Modals.HowToPlayIncorrectAnswers": "Incorrect letters are marked in:\n<2>gray</2>."
 }
