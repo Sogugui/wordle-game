@@ -9,14 +9,14 @@ interface ModalProps {
   isModalVisible: boolean;
   setIsModalVisible: Dispatch<SetStateAction<boolean>>;
   children: React.ReactNode;
-  isComplete?: boolean;
+  isWinner?: boolean;
   maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl";
 }
 const Modal = ({
   isModalVisible,
   setIsModalVisible,
   children,
-  isComplete,
+  isWinner,
   maxWidth,
 }: ModalProps) => {
   return (
@@ -35,7 +35,7 @@ const Modal = ({
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-hidden">
-          {isComplete ? (
+          {isWinner ? (
             <Confetti
               tweenDuration={3000}
               numberOfPieces={500}
@@ -86,8 +86,8 @@ const Modal = ({
 export default Modal;
 
 type ModalWithTitleProps = ModalProps & {
-  title: string;
-  footer: React.ReactNode;
+  title?: string;
+  footer?: React.ReactNode;
 };
 
 export function ModalWithTitle({
@@ -96,14 +96,14 @@ export function ModalWithTitle({
   children,
   footer,
   title,
-  isComplete,
+  isWinner,
 }: ModalWithTitleProps) {
   return (
     <div className="">
       <Modal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
-        isComplete={isComplete}
+        isWinner={isWinner}
       >
         <div key={`key-statusmodal-${title}`}>
           <div className="flex items-center justify-center">
