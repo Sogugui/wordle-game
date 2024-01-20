@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { classNames } from "@/utils/styles";
 import { Button } from "./ui/button";
 import { Delete } from "lucide-react";
-import { LetterState } from "@/pages";
+import { LetterState } from "@/pages/[language]";
 import { useState } from "react";
+import { lettersArray } from "@/data/lettersArray";
 
 interface KeyboardButtonProps {
   letter: string;
@@ -41,8 +42,6 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
     };
   });
 
-  console.log("state", state);
-
   if (letter === "ENTER" || letter === "DELETE") {
     return (
       <button
@@ -58,7 +57,7 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
     return (
       <button
         className={classNames(
-          `flex items-center justify-center rounded-lg border-2 bg-slate-400  px-2 py-1 text-base font-bold text-white transition-all duration-75 ease-in-out active:-translate-y-1 
+          `flex items-center justify-center rounded-lg border-2 bg-slate-400  px-3 py-2  text-base font-bold text-white transition-all duration-75 ease-in-out active:-translate-y-1 
           dark:from-stone-700 dark:via-neutral-600 dark:to-stone-500 md:text-xl lg:p-1`,
           isTouched ? "translate-y-1 " : "translate-y-0 scale-100",
           state === "unchecked" ? " bg-gray-400 text-black" : "",
@@ -85,42 +84,10 @@ const Keyboard: React.FC<KeyboardProps> = ({
   onClickLetter,
   wordsArray,
 }) => {
-  console.log("letterStates ====> ", letterStates);
-  const letters = [
-    "Q",
-    "W",
-    "E",
-    "R",
-    "T",
-    "Y",
-    "U",
-    "I",
-    "O",
-    "P",
-    "A",
-    "S",
-    "D",
-    "F",
-    "G",
-    "H",
-    "J",
-    "K",
-    "L",
-    "Z",
-    "X",
-    "C",
-    "V",
-    "B",
-    "N",
-    "M",
-    "ENTER",
-    "DELETE",
-  ];
-
   return (
     <section className="flex w-full justify-center ">
       <div className="grid grid-cols-10 gap-1 px-3 md:px-0 lg:gap-0">
-        {letters.map((letter) => (
+        {lettersArray.map((letter) => (
           <KeyboardButton
             key={letter}
             letter={letter}
