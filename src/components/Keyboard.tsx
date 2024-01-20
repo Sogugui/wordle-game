@@ -1,32 +1,20 @@
 import { useEffect } from "react";
 import { classNames } from "@/utils/styles";
-import { Button } from "./ui/button";
 import { Delete } from "lucide-react";
-import { LetterState } from "@/pages/[language]";
 import { useState } from "react";
-import { lettersArray } from "@/data/lettersArray";
-
-interface KeyboardButtonProps {
-  letter: string;
-  state: LetterState | string;
-  onClickLetter: (letter: string) => void;
-  wordsArray: string[];
-}
+import { lettersArray } from "@/data/lettersArrays";
+import { KeyboardButtonProps, KeyboardProps } from "@/types/types";
 
 const KeyboardButton: React.FC<KeyboardButtonProps> = ({
-  wordsArray,
   letter,
   state,
   onClickLetter,
 }) => {
-  //NOTE - this component renders a single KEY to the KEYBOARD
-
+  // This component renders a single KEY to the KEYBOARD
   const [isTouched, setIsTouched] = useState(false);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent): void {
-      // e.key.length === 1 checks if the key is different than a special one like alt, tab, etc
-      // alert(`e.key ${e.key} | letter ${letter}`);
       if (e.key.toUpperCase() === letter) {
         setIsTouched(true);
         setTimeout(() => {
@@ -72,12 +60,6 @@ const KeyboardButton: React.FC<KeyboardButtonProps> = ({
     );
   }
 };
-
-interface KeyboardProps {
-  letterStates: Record<string, string>;
-  onClickLetter: (letter: string) => void;
-  wordsArray: string[];
-}
 
 const Keyboard: React.FC<KeyboardProps> = ({
   letterStates,

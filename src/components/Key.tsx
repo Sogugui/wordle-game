@@ -1,4 +1,4 @@
-import { Guess } from "@/pages/[language]";
+import { BoardProps, Guess } from "@/types/types";
 import { classNames } from "@/utils/styles";
 import React from "react";
 
@@ -37,10 +37,6 @@ const KeyBox: React.FC<Guess> = ({ letter, state }) => (
     </span>
   </div>
 );
-
-interface BoardProps {
-  guesses: Guess[][];
-}
 
 const Board: React.FC<BoardProps> = ({ guesses }) => (
   <div className="flex justify-center ">

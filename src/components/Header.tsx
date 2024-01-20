@@ -3,14 +3,12 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Button } from "./ui/button";
 import { SetStateAction, useEffect, useState } from "react";
 import { ModalWithTitle } from "./ui/Modal";
-import { Trans, useTranslation } from "next-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Image from "next/image";
 import greenKey from "../../public/assets/greenKey.png";
 import yellowKey from "../../public/assets/yellowKey.png";
 import grayKey from "../../public/assets/grayKey.png";
-import { useRouter } from "next/router";
-import { Dictionary, getTranslation } from "@/data/dictionary";
+import { getTranslation } from "@/data/dictionary";
 // import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 interface Props {
   word: string[];
@@ -21,10 +19,8 @@ interface Props {
 
 export default function Header({ word, language, setLanguage, locale }: Props) {
   const [isActive, setIsActive] = useState(false);
-  const { t } = useTranslation();
   const [tip, setTip] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const openOnDeleteModal = () => setIsModalVisible(true);
   useEffect(() => {
     setTip(word.join(""));
   }, []);
@@ -45,11 +41,7 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
             {isActive ? <EyeOff /> : <Eye />}
           </Button>
         </div>
-        <LanguageSwitcher
-          locale={locale}
-          language={language}
-          setLanguage={setLanguage}
-        />
+        <LanguageSwitcher language={language} setLanguage={setLanguage} />
         <h1 className="font-header tracking-wider text-purpleBackGround dark:text-slate-400">
           Wordle
         </h1>

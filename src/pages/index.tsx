@@ -1,50 +1,20 @@
 import Head from "next/head";
-import { HelpCircle } from "lucide-react";
 import Board from "@/components/Key";
 import Keyboard from "@/components/Keyboard";
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
+import winnerAnimation from "../../public/assets/winner.json";
 import { useEffect, useState } from "react";
-
+import { Player } from "@lottiefiles/react-lottie-player";
 import Header from "@/components/Header";
-// import { GetServerSideProps, GetStaticProps } from "next";
+import { ModalWithTitle } from "@/components/ui/Modal";
+import { Button } from "@/components/ui/button";
+import { getTranslation } from "@/data/dictionary";
+import { lettersArray } from "@/data/lettersArrays";
+import { Guess, HomeProps, LetterState } from "@/types/types";
 
-export type LetterState =
-  | "correct"
-  | "misplaced"
-  | "incorrect"
-  | "empty"
-  | "unchecked";
-
-export type Guess = {
-  letter: string;
-  state: LetterState;
-};
-
-type HomeProps = {
-  wordsArray: string[];
-};
-
-function setNestedArray<T>(
-  array: T[][],
-  col: number,
-  row: number,
-  value: T,
-): T[][] {
-  const newArray = array[col]?.slice() || [];
-  const newArrays = array.slice();
-  newArray.splice(row, 1, value);
-  newArrays.splice(col, 1, newArray);
-  return newArrays;
-}
-
-function countOf<T>(array: T[], predicate: (item: T) => boolean): number {
-  return array.filter(predicate).length;
-}
-
-const Home: React.FC<HomeProps> = ({ wordsArray }) => {
-  console.log({ wordsArray });
-
+const Home: React.FC<HomeProps> = ({ locale }) => {
+  const [wordsArray, setwordsArray] = useState<string[]>([""]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isNotWinnerVisible, setIsNotWinnerVisible] = useState(false);
   const [guesses, setGuesses] = useState<Array<Array<Guess>>>(
     Array.from({ length: 6 }, () =>
       Array.from({ length: 5 }, () => ({ letter: "", state: "empty" })),
@@ -54,14 +24,54 @@ const Home: React.FC<HomeProps> = ({ wordsArray }) => {
   const [letterStates, setLetterStates] = useState<Record<string, LetterState>>(
     {},
   );
-  console.log({ letterStates });
+
   const [col, setCol] = useState<number>(0);
   console.log({ col });
-
   const [row, setRow] = useState<number>(0);
   console.log({ row });
   const [won, setWon] = useState<boolean>(false);
+  console.log({ won });
 
+  const [language, setLanguage] = useState("en");
+  const getWord = async () => {
+    const res = await fetch(
+      `https://random-word-api.herokuapp.com/word?length=5&&lang=${language}`,
+    );
+    const word = await res.json();
+    const wordsUpperCaseArray = word[0].toUpperCase().split("");
+    const wordsArray = word[0].split("");
+
+    // Verifies whether words in languages other than English contain special characters such as 'é', 'á', etc.
+    const isNotSpecialWord = wordsUpperCaseArray.every((item: string) =>
+      lettersArray.includes(item),
+    );
+    if (isNotSpecialWord) {
+      setwordsArray(wordsArray);
+    } else {
+      console.log("isNotSpecialWord", isNotSpecialWord);
+      getWord();
+    }
+  };
+
+  useEffect(() => {
+    getWord();
+  }, [language]);
+
+  const handleReload = () => {
+    getWord();
+    setIsModalVisible(false);
+    setCol(0);
+    setRow(0);
+    setGuesses(
+      Array.from({ length: 6 }, () =>
+        Array.from({ length: 5 }, () => ({ letter: "", state: "empty" })),
+      ),
+    );
+    if (won === true) {
+      setWon(false);
+    }
+    setLetterStates({});
+  };
   function checkGuess(): Guess[] {
     const guess =
       guesses[col]
@@ -153,11 +163,15 @@ const Home: React.FC<HomeProps> = ({ wordsArray }) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [guesses, col, row, won, wordsArray, letterStates]);
+  useEffect(() => {
+    if (won === true) setIsModalVisible(true);
+    if (col === 6 && won === false) setIsNotWinnerVisible(true);
+  }, [won, col]);
 
   return (
     <>
       <Head>
-        <title>Wordle - Next.js</title>
+        <title>Wordle</title>
         <meta
           name="description"
           content="Wordle word guessing game made with next.js"
@@ -166,7 +180,12 @@ const Home: React.FC<HomeProps> = ({ wordsArray }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <article className="relative flex flex-col gap-2">
-        <Header word={wordsArray} />
+        <Header
+          locale={locale}
+          word={wordsArray}
+          language={language}
+          setLanguage={setLanguage}
+        />
 
         <Board guesses={guesses} />
         <Keyboard
@@ -174,41 +193,70 @@ const Home: React.FC<HomeProps> = ({ wordsArray }) => {
           onClickLetter={handleOnClick}
           wordsArray={wordsArray}
         />
+        <h3 className="text-xl text-red-500"> {locale}</h3>
       </article>
+
+      <ModalWithTitle
+        title={getTranslation("UserWinner", language)}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        maxWidth="2xl"
+        footer={
+          <Button onClick={handleReload}>
+            {getTranslation("ResetButton", language)}
+          </Button>
+        }
+        isWinner={won === true}
+      >
+        <div className="mt-20 lg:mt-0">
+          <Player
+            autoplay
+            loop
+            src={winnerAnimation}
+            style={{ height: "350px", width: "200px" }}
+          />
+        </div>
+      </ModalWithTitle>
+      <ModalWithTitle
+        title={getTranslation("UserNotWinner", language)}
+        isModalVisible={isNotWinnerVisible}
+        setIsModalVisible={setIsNotWinnerVisible}
+        maxWidth="2xl"
+        footer={
+          <Button onClick={handleReload}>
+            {getTranslation("TryAgainButton", language)}
+          </Button>
+        }
+      >
+        <div className="mt-20 lg:mt-0">
+          {/* <Player
+            autoplay
+            loop
+            src={winnerAnimation}
+            style={{ height: "350px", width: "200px" }}
+          /> */}
+          <p>The answer was: {wordsArray}</p>
+        </div>
+      </ModalWithTitle>
     </>
   );
 };
 
 export default Home;
 
-export const getServerSideProps = async () => {
-  const getWord = async () => {
-    const res = await fetch(
-      "https://random-word-api.herokuapp.com/word?length=5&&lang=en",
-    );
+function setNestedArray<T>(
+  array: T[][],
+  col: number,
+  row: number,
+  value: T,
+): T[][] {
+  const newArray = array[col]?.slice() || [];
+  const newArrays = array.slice();
+  newArray.splice(row, 1, value);
+  newArrays.splice(col, 1, newArray);
+  return newArrays;
+}
 
-    const word = await res.json();
-    const wordsArray = word[0].split("");
-    return wordsArray;
-  };
-
-  const wordsArray: string[] = await getWord();
-
-  return {
-    props: {
-      wordsArray,
-    },
-  };
-};
-
-// export async function getStaticProps({ locale }) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale, [
-//         'common',
-//         'footer',
-//       ])),
-//       // Will be passed to the page component as props
-//     },
-//   }
-// }
+function countOf<T>(array: T[], predicate: (item: T) => boolean): number {
+  return array.filter(predicate).length;
+}

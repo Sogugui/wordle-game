@@ -22,9 +22,8 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       de: "Englisch",
     },
   });
-  // console.log("language", language);
 
-  const handleClick = (country: Country) => {
+  const handleClick = (country: Country, l?: string) => {
     setActiveCountry(country);
     setOpen(false);
     setLanguage(country.language);
@@ -55,7 +54,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   return (
     <div
       ref={menuRef}
-      className="font- group z-50 rounded-md"
+      className="font- group z-10 rounded-md"
       onClick={() => setOpen(!open)}
     >
       <div className="relative flex items-center justify-start gap-2 rounded-md  px-2 duration-200">
@@ -65,14 +64,14 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           alt="changeMe"
           className="h-[30px] w-[32px] max-w-[80px]"
         />
-        <span className="text-zinc-700 dark:text-gray-500 dark:group-hover:text-white">
-          {activeCountry.name[language]}
+        <span className="font-bold uppercase text-gray-600 dark:text-white dark:group-hover:text-white">
+          {language}
         </span>
       </div>
       <ul
         className={`fixed duration-100 ${
           open ? " scale-100" : "scale-0"
-        } z-[999]  mt-1 flex w-[220px] flex-col gap-2 overflow-hidden  rounded-sm border  border-zinc-400/60 bg-gradient-to-br from-white via-gray-200 to-gray-400 p-2 capitalize dark:border-zinc-600/80 dark:from-slate-800 dark:to-neutral-800`}
+        }  mt-1 flex w-[220px] flex-col gap-2 overflow-hidden  rounded-sm border  border-zinc-400/60 bg-gradient-to-br from-white via-gray-200 to-gray-400 p-2 capitalize dark:border-zinc-600/80 dark:from-slate-800 dark:to-neutral-800`}
       >
         {Countries.map((country) => {
           return (

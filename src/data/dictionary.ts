@@ -132,11 +132,23 @@ export const Dictionary = {
         fr: "Vous avez gagné !",
         de: "Du hast gewonnen !",
     },
+    UserNotWinner: {
+        en: "You Lost!",
+        es: "¡Perdiste!",
+        fr: "Vous avez perdu!",
+        de: "Du hast verloren!",
+    },
     ResetButton: {
         en: "Reset",
         es: "Reiniciar",
         fr: "Réinitialiser",
         de: "Zurücksetzen",
+    },
+    TryAgainButton: {
+        en: "New Game",
+        es: "Jugar otra vez",
+        fr: "Jouer à nouveau",
+        de: "Nochmal spielen",
     },
 }
 
