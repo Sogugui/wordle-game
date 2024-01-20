@@ -237,8 +237,8 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
         }
       >
         <div className="mt-20 lg:mt-0">
-          <p>
-            {getTranslation("RevealCorrectAswer", language)} {wordsArray}
+          <p className="px-3 py-1 rounded-lg bg-slate-700 text-white font-medium dark:bg-white ">
+            {getTranslation("RevealCorrectAswer", language)} <span className="uppercase tracking-wider">{wordsArray}</span>
           </p>
           <Player
             autoplay

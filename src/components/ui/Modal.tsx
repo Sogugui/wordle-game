@@ -54,7 +54,7 @@ const Modal = ({
             >
               <Dialog.Panel
                 className={classNames(
-                  "absolute top-1/2 h-full w-full -translate-y-1/2 transform overflow-hidden rounded-lg bg-gradient-to-br from-white via-gray-300 to-slate-500 px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:from-indigo-950 dark:via-neutral-950 dark:to-slate-950 sm:my-8 sm:w-full sm:p-6 md:h-auto lg:h-[500px] lg:w-[800px] lg:px-3 lg:pt-2",
+                  "lg:scale-[0.7] absolute top-1/2 h-full w-full -translate-y-1/2 transform overflow-hidden rounded-lg bg-gradient-to-br from-white via-gray-300 to-slate-500 px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:from-indigo-950 dark:via-neutral-950 dark:to-slate-950 sm:my-8 sm:w-full sm:p-6 md:h-auto lg:h-[500px] lg:w-[800px] lg:px-3 lg:pt-2",
                   maxWidth === undefined ? "sm:max-w-lg" : "",
                   maxWidth === "sm" ? " sm:max-w-sm" : "",
                   maxWidth === "md" ? " sm:max-w-md" : "",
@@ -63,7 +63,7 @@ const Modal = ({
                   maxWidth === "2xl" ? " sm:max-w-4xl" : "",
                 )}
               >
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block lg:pt-2">
+                <div className="absolute right-0 top-0 pr-4 pt-4 sm:block lg:pt-2">
                   <button
                     type="button"
                     tabIndex={-1}

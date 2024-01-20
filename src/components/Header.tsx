@@ -32,14 +32,6 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
           {/* <span className="absolute -left-36 top-1/2 -translate-y-1/2 text-center font-sans text-3xl font-extrabold uppercase tracking-wider dark:text-slate-400">
             {word && word}
           </span> */}
-
-          {/* <Button
-            disabled={isActive}
-            className="px-[0.36rem]"
-            onClick={() => setIsActive(true)}
-          >
-            {isActive ? <EyeOff /> : <Eye />}
-          </Button> */}
         </div>
         <LanguageSwitcher language={language} setLanguage={setLanguage} />
         <h1 className="font-header tracking-wider text-purpleBackGround dark:text-slate-400">
@@ -60,92 +52,95 @@ export default function Header({ word, language, setLanguage, locale }: Props) {
         setIsModalVisible={setIsModalVisible}
         maxWidth="2xl"
       >
-        <ul className="list-inside list-disc text-pretty">
+        <ul className="list-inside list-disc text-pretty flex flex-col items-start" >
           <h3>{getTranslation("HowToPlayInformation", language)}</h3>
 
-          <li>
+          <li className="text-justify">
             <span className="font-bold tracking-wide text-indigo-500">
               {getTranslation("HowToPlayObjectiveSpan", language)}
-            </span>{" "}
+            </span>
             {getTranslation("HowToPlayObjective", language)}
           </li>
-          <li>
+          <li className="text-justify">
             <span className="font-bold tracking-wide text-indigo-500">
               {getTranslation("HowToPlayGuessingSpan", language)}
-            </span>{" "}
+            </span>
             {getTranslation("HowToPlayGuessing", language)}
           </li>
-          <li>
+          <li className="text-start">
             <span className="font-bold tracking-wide text-indigo-500">
-              {getTranslation("HowToPlayMakingGuessesSpan", language)}
-            </span>{" "}
+                            {getTranslation("HowToPlayMakingGuessesSpan", language)}
+            </span>
             {getTranslation("HowToPlayMakingGuesses", language)}
           </li>
           <li>
             <span className="font-bold tracking-wide text-indigo-500">
               {getTranslation("HowToPlayFeedbackSpan", language)}
-            </span>{" "}
+            </span>
             {getTranslation("HowToPlayFeedback", language)}
             <ul className="list-inside">
               <section className="flex ">
-                <Image width={25} height={20} src={greenKey} alt="green-key" />
+                <Image 
+                width={25}
+                 height={20}
+                  src={greenKey} alt="green-key"   className="h-[25px]"/>
+                  
 
-                <span className="">
+                 <span className="lg:pl-1">
                   {getTranslation("HowToPlayCorrectAnswers", language)}
-                </span>
-
-                <span className="ml-[3px] font-bold text-greenCenterButton">
+                  <span className="ml-[3px] font-bold text-greenCenterButton">
                   {getTranslation("HowToPlayCorrectAnswersColor", language)}
                 </span>
+                </span>
+
+              
               </section>
               <section className="flex ">
                 <Image
-                  className="w-[25px] md:w-[25px] "
+                  className="h-[25px]"
                   width={25}
                   height={25}
                   src={yellowKey}
                   alt="yelow-key"
                 />
 
-                <span className="">
+                 <span className="lg:pl-1">
                   {getTranslation("HowToPlayMissplacedAnswers", language)}
-                </span>
-
-                <span className="ml-[2px] font-bold text-yellowMarginButton ">
+                  <span className="ml-[2px] font-bold text-yellowMarginButton ">
                   {getTranslation("HowToPlayMissplacedAnswersColor", language)}
                 </span>
+                </span>
+
+              
               </section>
               <section className="flex ">
                 <Image
-                  // width={25}
                   className="w-[25px] md:w-[25px] "
-                  height={30}
                   src={grayKey}
                   alt="gray-key"
                 />
-                <span className="ml-1">
+                <span className="pl-3">
                   {getTranslation("HowToPlayIncorrectAnswers", language)}
+                  <span className=" font-bold text-gray-700">
+                  {getTranslation("HowToPlayIncorrectAnswersColor", language)}
                 </span>
-
-                <span className="ml-1 font-bold text-gray-700">
-                  {getTranslation("HowToPlayIncorrectAnswersColor", language)}{" "}
-                </span>
+                </span>                
               </section>
             </ul>
           </li>
-          <li>
+          <li className="text-justify">
             <span className="font-bold tracking-wide text-indigo-500">
               {getTranslation("HowToPlayAdjustingStrategySpan", language)}
-            </span>{" "}
+            </span>
             <span>
-              {" "}
-              {getTranslation("HowToPlayAdjustingStrategy", language)}{" "}
+              
+              {getTranslation("HowToPlayAdjustingStrategy", language)}
             </span>
           </li>
-          <li>
+          <li className="text-justify">
             <span className="font-bold tracking-wide text-indigo-500">
               {getTranslation("HowToPlayWinningSpan", language)}
-            </span>{" "}
+            </span>
             {getTranslation("HowToPlayWinning", language)}
           </li>
         </ul>
