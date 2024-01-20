@@ -97,10 +97,10 @@ export const Dictionary = {
         de: "Die richtigen Buchstaben an der richtigen Position sind markiert in: ",
     },
     HowToPlayCorrectAnswersColor: {
-        en: "green",
-        es: "verde",
-        fr: "vert",
-        de: "grün",
+        en: " green",
+        es: " verde",
+        fr: " vert",
+        de: " grün",
     },
     HowToPlayMissplacedAnswers: {
         en: "Correct letters in the wrong position are marked in: ",
@@ -109,10 +109,10 @@ export const Dictionary = {
         de: "Die richtigen Buchstaben an der falschen Position sind markiert in: ",
     },
     HowToPlayMissplacedAnswersColor: {
-        en: "yellow",
-        es: "amarillo",
-        fr: "jaune",
-        de: "gelb",
+        en: " yellow",
+        es: " amarillo",
+        fr: " jaune",
+        de: " gelb",
     },
     HowToPlayIncorrectAnswers: {
         en: "Incorrect letters are marked in: ",
@@ -150,6 +150,12 @@ export const Dictionary = {
         fr: "Jouer à nouveau",
         de: "Nochmal spielen",
     },
+    RevealCorrectAswer: {
+        en: "The answer was:",
+        es: 'La respuesta era:',
+        fr: "La réponse était:",
+        de: "Die Antwort war"
+    }
 }
 
 export function getTranslation<T extends keyof DictionaryType>(
