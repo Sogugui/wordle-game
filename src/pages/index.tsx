@@ -237,7 +237,7 @@ const Home: React.FC<HomeProps> = ({ locale }) => {
         }
       >
         <div className="mt-20 lg:mt-0">
-          <p className="px-3 py-1 rounded-lg bg-slate-700 text-white font-medium dark:bg-white ">
+          <p className="px-3 py-1 rounded-lg bg-slate-700 text-white font-medium dark:bg-white dark:text-slate-700">
             {getTranslation("RevealCorrectAswer", language)} <span className="uppercase tracking-wider">{wordsArray}</span>
           </p>
           <Player
